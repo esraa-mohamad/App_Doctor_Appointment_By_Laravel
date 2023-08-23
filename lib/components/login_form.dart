@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                       print("Error occurred: $token");
                       // Handle the error, such as showing an error message to the user.
                     } else {
-                      print("Unknown error occurred");
+                      print("Error exception : $token");
                     }
                   },
                 );
