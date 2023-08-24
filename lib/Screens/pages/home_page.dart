@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:doctor_appointment/components/appointment_card.dart';
 import 'package:doctor_appointment/components/doctor_card.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
@@ -45,22 +46,26 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-  Future<void> getData() async{
-    //get token from shared preferences
+  Future<void> getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
 
-    if(token.isNotEmpty&&token != ''){
-      //get user data
-      final response= await DioProvider().getUser(token);
-      if(response != null){
-        setState(() {
-          //json decode
-          user= json.decode(response);
-        });
+    if (token.isNotEmpty && token != '') {
+      try {
+        final response = await DioProvider().getUser(token);
+        if (response != null) {
+          setState(() {
+            user = json.decode(response);
+            print(user);
+          });
+        }
+      } on DioException catch (e) {
+        // Handle DioException here
+        print('DioException: ${e.message}');
       }
     }
   }
+
   @override
   void initState() {
     getData();
@@ -70,7 +75,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Config().init(context);
     return   Scaffold(
-      body: SafeArea(
+      body:user.isEmpty?const Center(child: CircularProgressIndicator()):SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
@@ -82,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      user['name'] ?? 'User Name',
+                      user['name'],
                       style:const  TextStyle(
                         fontSize: 24,
                         fontFamily: Config.primaryFont,
@@ -101,10 +106,10 @@ class _HomePageState extends State<HomePage> {
                 const Text(
                   'Category',
                   style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: Config.primaryFont,
-                    color: Config.smallColorText,
-                    fontWeight: FontWeight.bold
+                      fontSize: 18,
+                      fontFamily: Config.primaryFont,
+                      color: Config.smallColorText,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
                 Config.smallSpacer,
@@ -132,10 +137,10 @@ class _HomePageState extends State<HomePage> {
                               Text(
                                 medCat[index]['category'],
                                 style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontFamily: Config.fontText,
-                                  fontWeight: FontWeight.w500
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontFamily: Config.fontText,
+                                    fontWeight: FontWeight.w500
                                 ),
                               )
                             ],
@@ -170,10 +175,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Config.smallSpacer,
                 Column(
-                  children: List.generate(10, (index)
+                  children: List.generate(user['doctor'].length, (index)
                   {
-                    return const DoctorCard(
-                      route: 'doc_details',
+                    return  DoctorCard(
+                      route: 'doc_details', doctor:user['doctor'][index],
                     );
                   }
                   ),

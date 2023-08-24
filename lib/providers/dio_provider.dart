@@ -15,14 +15,12 @@ class DioProvider{
         await prefs.setString('token', response.data);
         return true;
       }else{
-        
         return false;
-
       }
     }catch(error){
       return error;
     }
-    }
+  }
 
 
 //    let`s get user data

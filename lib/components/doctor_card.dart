@@ -2,9 +2,10 @@ import 'package:doctor_appointment/utils/config.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({super.key, required this.route});
+  const DoctorCard({super.key, required this.route, required this.doctor});
 
   final String route;
+  final Map<String,dynamic>doctor;
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -22,18 +23,18 @@ class DoctorCard extends StatelessWidget {
             children: [
               SizedBox(
                 width: Config.widthSize*0.33,
-                child: Image.asset(
-                  'assets/images/doctor.png',
+                child: Image.network(
+                  '${Config.ip}${doctor['doctor_profile']}',
                   fit: BoxFit.fill,),
               ),
-              const Flexible(
+              Flexible(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10,vertical: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            'Dr.Richard',
+                            "Dr ${doctor['doctor_name']}",
                           style: TextStyle(
                             fontSize: 18,
                             fontFamily: Config.primaryFont,
@@ -41,7 +42,7 @@ class DoctorCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Dental',
+                          '${doctor['category']}',
                           style: TextStyle(
                               fontSize: 14,
                               fontFamily: Config.fontText,
