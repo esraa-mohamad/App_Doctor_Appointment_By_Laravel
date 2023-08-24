@@ -1,9 +1,14 @@
 import 'package:doctor_appointment/components/button.dart';
 import 'package:doctor_appointment/components/custome_appbar.dart';
+import 'package:doctor_appointment/models/booking_datetime_converted.dart';
 import 'package:doctor_appointment/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../main.dart';
+import '../../providers/dio_provider.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key});
@@ -21,10 +26,24 @@ class _BookingPageState extends State<BookingPage> {
   bool? _isWeekend =false;
   bool? _dateSelected = false;
   bool? _timeSelected = false;
+  String? token;
 
+  Future<void> getToken() async
+  {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
+  }
+
+
+  @override
+  void initState() {
+    getToken();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final doctor = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: CustomeApp(
         tabTitle: 'Appointments',
@@ -118,8 +137,24 @@ class _BookingPageState extends State<BookingPage> {
               child: ButtonForm(
                 width: double.infinity,
                 title: 'Make Appointment',
-                onPressed: (){
-                  Navigator.pushNamed(context, 'success_booking');
+                onPressed: () async {
+                  final getDate =DateConverted.getDate(_currentTime);
+                  final getDay=DateConverted.getDay(_currentTime.weekday);
+                  final getTime=DateConverted.getTime(_currentIndex!);
+
+                  final booking = await DioProvider().bookAppointment(
+                      getDate,
+                      getDay,
+                      getTime,
+                      doctor['doctor_id'],
+                      token!,
+                  );
+
+                  if(booking == 200)
+                    {
+                      MyApp.navigatorKey.currentState!.pushNamed('success_booking');
+                    }
+
                 },
                 disable: _timeSelected! && _dateSelected!
                     ? false
@@ -176,7 +211,26 @@ class _BookingPageState extends State<BookingPage> {
             }
         });
       },
-
+      calendarBuilders: CalendarBuilders(
+        // Customize the day cell's style based on selected day
+        selectedBuilder: (context, date, focusedDay) {
+          if (_currentIndex != null && date == _currentTime) {
+            return Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Config.primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                '${date.day}',
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          } else {
+            return null;
+          }
+        },
+      ),
     );
   }
 }

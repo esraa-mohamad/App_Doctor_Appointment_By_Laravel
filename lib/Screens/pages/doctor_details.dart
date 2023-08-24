@@ -44,7 +44,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                  children: [
                    AboutDoctor(doctor: doctor,),
                    DetailBody(doctor: doctor),
-                   Spacer(),
                    Padding(
                      padding: EdgeInsets.all(10),
                      child: ButtonForm(
@@ -53,7 +52,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                        disable: false,
                        onPressed: ()
                        {
-                         Navigator.pushNamed(context, 'booking');
+                         Navigator.of(context).pushNamed('booking',
+                         arguments: {'doctor_id':doctor['doctor_id']});
                        },
                      ),
                    ),
@@ -180,24 +180,26 @@ class DetailBody extends StatelessWidget {
 // details of info of doctor widget
 class DoctorInfo extends StatelessWidget {
   const DoctorInfo({super.key, required this.patients, required this.exp});
-  final int patients;
-  final int exp;
+  final int? patients;
+  final int? exp;
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    final patientsValue = patients ?? 0; // Default to 0 if patients is null
+    final expValue = exp ?? 0; // Default to 0 if exp is null
     return Row(
       children:
       [
         InfoCard(
             label: 'Patient',
-            value: '$patients',
+            value: '$patientsValue',
         ),
         SizedBox(
           width: 15,
         ),
         InfoCard(
           label:'Experiences',
-          value: '$exp Years',
+          value: '$expValue Years',
         ),
         SizedBox(
           width: 15,
