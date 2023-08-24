@@ -14,7 +14,7 @@ class DoctorCard extends StatelessWidget {
       height: 150,
       child: GestureDetector(
         onTap: (){
-          Navigator.pushNamed(context, route);
+          Navigator.pushNamed(context, route,arguments: doctor);
         },
         child: Card(
           elevation: 5,
