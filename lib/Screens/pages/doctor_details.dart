@@ -39,21 +39,27 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       body: SafeArea(
         child: Column(
           children: [
-            AboutDoctor(doctor: doctor,),
-            DetailBody(doctor: doctor),
-            Spacer(),
-            Padding(
-                padding: EdgeInsets.all(10),
-              child: ButtonForm(
-                width: double.infinity,
-                title: 'Book Appointment',
-                disable: false,
-                onPressed: ()
-                {
-                  Navigator.pushNamed(context, 'booking');
-                },
-              ),
-            ),
+           Flexible(
+               child: ListView(
+                 children: [
+                   AboutDoctor(doctor: doctor,),
+                   DetailBody(doctor: doctor),
+                   Spacer(),
+                   Padding(
+                     padding: EdgeInsets.all(10),
+                     child: ButtonForm(
+                       width: double.infinity,
+                       title: 'Book Appointment',
+                       disable: false,
+                       onPressed: ()
+                       {
+                         Navigator.pushNamed(context, 'booking');
+                       },
+                     ),
+                   ),
+                 ],
+               )
+           ),
           ],
         ),
       ),
@@ -75,7 +81,7 @@ class  AboutDoctor extends StatelessWidget {
           CircleAvatar(
             radius: 60,
             backgroundImage: NetworkImage(
-              '${Config.ip}${doctor['doctor_profile']}',
+              '${Config.ip2}${doctor['doctor_profile']}',
             ),
             backgroundColor: Config.textColor,
           ),

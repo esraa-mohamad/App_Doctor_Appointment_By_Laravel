@@ -79,6 +79,13 @@
             <x-input id="category" type="text" class="mt-1 block w-full" wire:model.defer="state.category" autocomplete="category" />
             <x-input-error for="category" class="mt-2" />
         </div>
+
+         <!-- Patients -->
+                  <div class="col-span-6 sm:col-span-4">
+                    <x-label for="patients" value="{{ __('Patients') }}" />
+                    <x-input id="patients" type="number" class="mt-1 block w-full" wire:model.defer="state.patients" autocomplete="patients" />
+                    <x-input-error for="patients" class="mt-2" />
+                </div>
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />

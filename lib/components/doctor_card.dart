@@ -24,7 +24,7 @@ class DoctorCard extends StatelessWidget {
               SizedBox(
                 width: Config.widthSize*0.33,
                 child: Image.network(
-                  '${Config.ip}${doctor['doctor_profile']}',
+                  '${Config.ip2}${doctor['doctor_profile']}',
                   fit: BoxFit.fill,),
               ),
               Flexible(

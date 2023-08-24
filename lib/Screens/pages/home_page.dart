@@ -75,11 +75,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Config().init(context);
     return   Scaffold(
-      body:user.isEmpty?const Center(child: CircularProgressIndicator()):SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: SingleChildScrollView(
-            child: Column(
+      body:user.isEmpty?const Center(child: CircularProgressIndicator())
+          :SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+             child: SingleChildScrollView(
+               child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-        ),
+         ),
       ),
     );
   }
