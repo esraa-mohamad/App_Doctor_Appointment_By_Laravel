@@ -20,8 +20,8 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
 
   CalendarFormat _format =CalendarFormat.month;
-  DateTime _focusTime = DateTime.now();
-  DateTime _currentTime = DateTime.now();
+  DateTime _focusDay = DateTime.now();
+  DateTime _currentDay = DateTime.now();
   int? _currentIndex;
   bool? _isWeekend =false;
   bool? _dateSelected = false;
@@ -138,8 +138,8 @@ class _BookingPageState extends State<BookingPage> {
                 width: double.infinity,
                 title: 'Make Appointment',
                 onPressed: () async {
-                  final getDate =DateConverted.getDate(_currentTime);
-                  final getDay=DateConverted.getDay(_currentTime.weekday);
+                  final getDate =DateConverted.getDate(_currentDay);
+                  final getDay=DateConverted.getDay(_currentDay.weekday);
                   final getTime=DateConverted.getTime(_currentIndex!);
 
                   final booking = await DioProvider().bookAppointment(
@@ -172,11 +172,11 @@ class _BookingPageState extends State<BookingPage> {
   Widget _tableCalender()
   {
     return TableCalendar(
-        focusedDay: _focusTime,
+        focusedDay: _focusDay,
         firstDay: DateTime.now(),
         lastDay: DateTime(2024,01,01),
       calendarFormat: _format,
-      currentDay: _currentTime,
+      currentDay: _currentDay,
       rowHeight: 48,
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(
@@ -196,8 +196,8 @@ class _BookingPageState extends State<BookingPage> {
       onDaySelected: (selectedDay , focusDay)
       {
         setState(() {
-          _currentTime=selectedDay;
-          _focusTime=focusDay;
+          _currentDay=selectedDay;
+          _focusDay=focusDay;
           _dateSelected=true;
           if(selectedDay.weekday==6 || selectedDay.weekday ==7)
             {
@@ -214,7 +214,7 @@ class _BookingPageState extends State<BookingPage> {
       calendarBuilders: CalendarBuilders(
         // Customize the day cell's style based on selected day
         selectedBuilder: (context, date, focusedDay) {
-          if (_currentIndex != null && date == _currentTime) {
+          if (_currentIndex != null && date == _currentDay) {
             return Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(

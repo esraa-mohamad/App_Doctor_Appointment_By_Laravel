@@ -56,7 +56,9 @@ class DioProvider{
     try {
       var response = await Dio().post('${Config.ip2}/api/book',
           data: {'date': date, 'day': day, 'time': time, 'doctor_id': doctor},
-          options: Options(headers: {'Authorization': 'Bearer $token'}));
+          options: Options(
+              headers: {'Authorization': 'Bearer $token'}
+          ));
 
       if (response.statusCode == 200 && response.data != '') {
         return response.statusCode;
