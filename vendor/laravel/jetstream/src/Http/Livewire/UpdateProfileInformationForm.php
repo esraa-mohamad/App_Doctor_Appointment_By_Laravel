@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Doctor;
+use App\Models\User as UserModel;
 
 class UpdateProfileInformationForm extends Component
 {
@@ -44,6 +46,15 @@ class UpdateProfileInformationForm extends Component
         $this->state = array_merge([
             'email' => $user->email,
         ], $user->withoutRelations()->toArray());
+
+        $doctor = Doctor::where('doc_id', Auth::user()->id)->first();
+
+                if ($doctor) {
+                    $this->state['experience'] = $doctor->experience;
+                    $this->state['bio_data'] = $doctor->bio_data;
+                    $this->state['category'] = $doctor->category;
+                    $this->state['patients'] = $doctor->patients;
+                }
     }
 
     /**
@@ -56,12 +67,12 @@ class UpdateProfileInformationForm extends Component
     {
         $this->resetErrorBag();
 
-        $updater->update(
-            Auth::user(),
-            $this->photo
-                ? array_merge($this->state, ['photo' => $this->photo])
-                : $this->state
-        );
+       $updater->update(
+                   UserModel::find(Auth::id()), // Use the correct namespace and find the user by ID
+                   $this->photo
+                       ? array_merge($this->state, ['photo' => $this->photo])
+                       : $this->state
+               );
 
         if (isset($this->photo)) {
             return redirect()->route('profile.show');

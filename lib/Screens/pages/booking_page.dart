@@ -141,7 +141,6 @@ class _BookingPageState extends State<BookingPage> {
                   final getDate =DateConverted.getDate(_currentDay);
                   final getDay=DateConverted.getDay(_currentDay.weekday);
                   final getTime=DateConverted.getTime(_currentIndex!);
-
                   final booking = await DioProvider().bookAppointment(
                       getDate,
                       getDay,
