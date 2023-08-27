@@ -36,7 +36,27 @@ class DocsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //this controller is to store booking details post from mobile app
+                $reviews = new Reviews();
+                //this is to update the appointment status from "upcoming" to "complete"
+                $appointment = Appointments::where('id', $request->get('appointment_id'))->first();
+
+                //save the ratings and reviews from user
+                $reviews->user_id = Auth::user()->id;
+                $reviews->doc_id = $request->get('doctor_id');
+                $reviews->ratings = $request->get('ratings');
+                $reviews->reviews = $request->get('reviews');
+                $reviews->reviewed_by = Auth::user()->name;
+                $reviews->status = 'active';
+                $reviews->save();
+
+                //change appointment status
+                $appointment->status = 'complete';
+                $appointment->save();
+
+                return response()->json([
+                    'success'=>'The appointment has been completed and reviewed successfully!',
+                ], 200);
     }
 
     /**
