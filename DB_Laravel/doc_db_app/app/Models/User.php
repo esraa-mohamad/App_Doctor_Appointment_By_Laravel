@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\UserDetails;
+use App\Models\Reviews;
 use App\Models\Appointments;
 
 class User extends Authenticatable
@@ -75,5 +76,9 @@ class User extends Authenticatable
      public function appointments(){
             return $this->hasMany(Appointments::class, 'user_id');
      }
+       //a user may has many reviews
+      public function reviews(){
+                 return $this->hasMany(Reviews::class, 'user_id');
+          }
 
 }
