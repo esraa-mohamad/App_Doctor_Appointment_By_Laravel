@@ -29,7 +29,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage("${Config.ip2}${widget.doctor['doctor_profile']}"),
+                    backgroundImage: NetworkImage("${Config.ip}${widget.doctor['doctor_profile']}"),
                   ),
                   SizedBox(
                     width: 20,

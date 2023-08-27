@@ -81,7 +81,7 @@ class  AboutDoctor extends StatelessWidget {
           CircleAvatar(
             radius: 60,
             backgroundImage: NetworkImage(
-              '${Config.ip2}${doctor['doctor_profile']}',
+              '${Config.ip}${doctor['doctor_profile']}',
             ),
             backgroundColor: Config.textColor,
           ),

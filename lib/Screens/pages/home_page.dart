@@ -47,34 +47,71 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+
   Future<void> getData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
-
     if (token.isNotEmpty && token != '') {
       try {
         final response = await DioProvider().getUser(token);
         if (response != null) {
-          setState(() {
-            user = json.decode(response);
-
-            for(var doctorData in user['doctor'])
-              {
-                if(doctorData['appointments'] != null)
-                  {
-                    doctor =doctorData;
-                  }
+          if (response is DioError) {
+            // Handle DioException
+            print('DioException: ${response.message}');
+          } else if (response is String) {
+            setState(() {
+              user = json.decode(response);
+              for (var doctorData in user['doctor']) {
+                if (doctorData['appointments'] != null) {
+                  doctor = doctorData;
+                }
               }
-            print(user);
-          });
+              print(user);
+            });
+          } else {
+            print('Unexpected response type');
+          }
         }
-      } on DioException catch (e) {
-        // Handle DioException here
-        print('DioException: ${e.message}');
+      } catch (error) {
+        // Handle other exceptions
+        print('An error occurred: $error');
       }
     }
-
   }
+
+
+
+
+
+
+  // Future<void> getData() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString('token') ?? '';
+  //
+  //   if (token.isNotEmpty && token != '') {
+  //     try {
+  //       final response = await DioProvider().getUser(token);
+  //       if (response != null) {
+  //         setState(() {
+  //           user = json.decode(response);
+  //
+  //           for(var doctorData in user['doctor'])
+  //             {
+  //               if(doctorData['appointments'] != null)
+  //                 {
+  //                   doctor =doctorData;
+  //                 }
+  //             }
+  //           print(user);
+  //         });
+  //       }
+  //     } on DioException catch (e) {
+  //       // Handle DioException here
+  //       print('DioException: ${e.message}');
+  //     }
+  //   }
+  //
+  // }
 
   @override
   void initState() {
@@ -173,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Config.smallSpacer,
-               doctor.isEmpty?
+               doctor.isNotEmpty?
                AppointmentCard(
                    doctor: doctor,
                    color: Config.primaryColor,

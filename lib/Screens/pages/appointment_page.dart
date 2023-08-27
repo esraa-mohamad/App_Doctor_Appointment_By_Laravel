@@ -154,7 +154,7 @@ class _AppointPageState extends State<AppointPage> {
                         children: [
                           CircleAvatar(
                             backgroundImage:
-                                NetworkImage("${Config.ip2}${schedule['doctor_profile']}"),
+                                NetworkImage("${Config.ip}${schedule['doctor_profile']}"),
                           ),
                           const SizedBox(
                             width: 10,
