@@ -8,7 +8,7 @@ class DioProvider{
   //this is to get token
   Future<dynamic> getToken(String email, String password) async {
     try {
-      var response = await Dio().post('${Config.ip}/api/login',
+      var response = await Dio().post('${Config.ip2}/api/login',
           data: {'email': email, 'password': password},options: Options(receiveTimeout:Duration(seconds: 15),));
       if (response.statusCode == 200 && response.data != '') {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,7 +27,7 @@ class DioProvider{
 
   Future<dynamic> getUser(String token) async {
     try {
-      var user = await Dio().get('${Config.ip}/api/user', options: Options(headers: {'Authorization': 'Bearer $token'},));
+      var user = await Dio().get('${Config.ip2}/api/user', options: Options(headers: {'Authorization': 'Bearer $token'},));
       if (user.statusCode == 200 && user.data != '') {
         return json.encode(user.data);
       }
@@ -39,7 +39,7 @@ class DioProvider{
   //register new user
   Future<dynamic> registerUser(String username,String email,String password) async {
     try {
-      var user = await Dio().post('${Config.ip}/api/register', data: {'name':username,'email': email, 'password': password});
+      var user = await Dio().post('${Config.ip2}/api/register', data: {'name':username,'email': email, 'password': password});
       if (user.statusCode == 200 && user.data != '') {
         return true;
       }else{
@@ -54,7 +54,7 @@ class DioProvider{
   Future<dynamic> bookAppointment(
       String date, String day, String time, int doctor, String token) async {
     try {
-      var response = await Dio().post('${Config.ip}/api/book',
+      var response = await Dio().post('${Config.ip2}/api/book',
           data: {'date': date, 'day': day, 'time': time, 'doctor_id': doctor},
           options: Options(
               headers: {'Authorization': 'Bearer $token'}
@@ -70,21 +70,21 @@ class DioProvider{
     }
   }
 
-// //retrieve booking details
-//   Future<dynamic> getAppointments(String token) async {
-//     try {
-//       var response = await Dio().get('${Config.ip}/api/appointments',
-//           options: Options(headers: {'Authorization': 'Bearer $token'}));
-//
-//       if (response.statusCode == 200 && response.data != '') {
-//         return json.encode(response.data);
-//       } else {
-//         return 'Error';
-//       }
-//     } catch (error) {
-//       return error;
-//     }
-//   }
+//retrieve booking details
+  Future<dynamic> getAppointments(String token) async {
+    try {
+      var response = await Dio().get('${Config.ip2}/api/appointments',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200 && response.data != '') {
+        return json.encode(response.data);
+      } else {
+        return 'Error';
+      }
+    } catch (error) {
+      return error;
+    }
+  }
 
 
 }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../utils/config.dart';
 
 class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({super.key});
+  const AppointmentCard({super.key, required this.doctor, required this.color});
 
+  final Map<String, dynamic> doctor;
+  final Color color;
   @override
   State<AppointmentCard> createState() => _AppointmentCardState();
 }
@@ -15,7 +17,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Config.primaryColor,
+        color: widget.color,
         borderRadius: BorderRadius.circular(10),
       ),
       child:  Material(
@@ -24,10 +26,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Row(
+               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/medical.png'),
+                    backgroundImage: NetworkImage("${Config.ip2}${widget.doctor['doctor_profile']}"),
                   ),
                   SizedBox(
                     width: 20,
@@ -37,7 +39,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dr.Richard',
+                        'Dr. ${widget.doctor['doctor_name']}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -49,7 +51,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                         height: 2,
                       ),
                       Text(
-                        'Dental',
+                        widget.doctor['category'],
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
@@ -62,7 +64,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 ],
               ),
               Config.smallSpacer,
-              const ScheduleCard(),
+               ScheduleCard(
+                 appointment: widget.doctor['appointments'],
+               ),
               Config.smallSpacer,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,8 +117,8 @@ class _AppointmentCardState extends State<AppointmentCard> {
 }
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({super.key});
-
+  const ScheduleCard({super.key, required this.appointment});
+  final Map<String, dynamic> appointment;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -122,7 +126,7 @@ class ScheduleCard extends StatelessWidget {
         color: Colors.grey,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const Padding(
+      child:  Padding(
         padding: EdgeInsets.all(15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +140,7 @@ class ScheduleCard extends StatelessWidget {
               width: 15,
             ),
             Text(
-              'Monday 14/08/2023',
+              '${appointment['day']} ,${appointment['date']}',
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: Config.fontText
@@ -155,7 +159,7 @@ class ScheduleCard extends StatelessWidget {
             ),
             Flexible(
                 child: Text(
-              '2:00 PM',
+                  appointment['time'],
                   style: TextStyle(
                     color: Colors.white
                   ),

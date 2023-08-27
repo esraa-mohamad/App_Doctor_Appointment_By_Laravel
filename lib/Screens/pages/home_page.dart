@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map<String,dynamic>user={};
+  Map<String,dynamic>doctor={};
   List <Map<String,dynamic>> medCat=[
     {
       'icon':FontAwesomeIcons.userDoctor,
@@ -56,6 +57,14 @@ class _HomePageState extends State<HomePage> {
         if (response != null) {
           setState(() {
             user = json.decode(response);
+
+            for(var doctorData in user['doctor'])
+              {
+                if(doctorData['appointments'] != null)
+                  {
+                    doctor =doctorData;
+                  }
+              }
             print(user);
           });
         }
@@ -64,6 +73,7 @@ class _HomePageState extends State<HomePage> {
         print('DioException: ${e.message}');
       }
     }
+
   }
 
   @override
@@ -163,7 +173,32 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Config.smallSpacer,
-                const AppointmentCard(),
+               doctor.isEmpty?
+               AppointmentCard(
+                   doctor: doctor,
+                   color: Config.primaryColor,
+                 ) :
+               Container(
+                 width: double.infinity,
+                 decoration: BoxDecoration(
+                   color: Colors.grey.shade300,
+                   borderRadius: BorderRadius.circular(12),
+                 ),
+                 child: Center(
+                   child: Padding(
+                     padding: EdgeInsets.all(20),
+                     child: Text(
+                       '  No Appointments Today',
+                       style: TextStyle(
+                         color: Config.smallColorText,
+                         fontFamily: Config.smallFontText,
+                         fontWeight: FontWeight.bold,
+                         fontSize: 25,
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
                 Config.smallSpacer,
                 const Text(
                   'Top Doctor',

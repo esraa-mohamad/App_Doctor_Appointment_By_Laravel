@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 
 class AppointmentsController extends Controller
@@ -15,7 +16,23 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        //
+         $appointment = Appointments::where('user_id', Auth::user()->id)->get();
+         $doctor = User::where('type', 'doctor')->get();
+
+                //sorting appointment and doctor details
+                //and get all related appointment
+                foreach($appointment as $data){
+                    foreach($doctor as $info){
+                        $details = $info->doctor;
+                        if($data['doc_id'] == $info['id']){
+                            $data['doctor_name'] = $info['name'];
+                            $data['doctor_profile'] = $info['profile_photo_url']; //typo error found
+                            $data['category'] = $details['category'];
+                        }
+                    }
+                }
+
+        return $appointment;
     }
 
     /**

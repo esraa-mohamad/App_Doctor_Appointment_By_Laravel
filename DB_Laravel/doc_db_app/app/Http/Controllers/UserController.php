@@ -19,22 +19,33 @@ class UserController extends Controller
      */
     public function index()
     {
-                $user=array();
-                $user=Auth::user();
-                $doctor=User::where('type','doctor')->get();
-                $doctorData=Doctor::all();
-        //         here we collect user data and doctor details
-                foreach($doctorData as $data){
-        //          sorting doctor name and doctor details
-                    foreach($doctor as $info){
-                        if($data['doc_id']==$info['id']){
-                            $data['doctor_name']=$info['name'];
-                            $data['doctor_profile']=$info['profile_photo_url'];
-                        }
+        $user=array();
+        $user=Auth::user();
+        $doctor=User::where('type','doctor')->get();
+        $doctorData=Doctor::all();
+
+        //this is the date format without leading
+       ////$date = now()->format('n/j/Y'); //change date format to suit the format in database
+        $date = now()->format('m/d/Y');
+        //make this appointment filter only status is "upcoming"
+       ////$appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
+        $appointment = Appointments::where('date', $date)->first();
+        //here we collect user data and doctor details
+        foreach($doctorData as $data){
+        // sorting doctor name and doctor details
+            foreach($doctor as $info){
+                if($data['doc_id']==$info['id']){
+                    $data['doctor_name']=$info['name'];
+                    $data['doctor_profile']=$info['profile_photo_url'];
+                    if(isset($appointment) && $appointment['doc_id'] == $info['id']){
+                            $data['appointments'] = $appointment;
                     }
                 }
-                $user['doctor']=$doctorData;
-                return $user;
+            }
+        }
+        $user['doctor']=$doctorData;
+        $user['details'] = $details;
+        return $user;
     }
 
     /**

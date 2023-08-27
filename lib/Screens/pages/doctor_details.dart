@@ -53,7 +53,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                        onPressed: ()
                        {
                          Navigator.of(context).pushNamed('booking',
-                         arguments: {'doctor_id':doctor['doctor_id']});
+                         arguments: {'doctor_id':doctor['doc_id']});
                        },
                      ),
                    ),
