@@ -259,7 +259,7 @@ class ScheduleCard extends StatelessWidget {
               width: 5,
             ),
             Text(
-              '$day $date',
+              '$day, $date',
               style: TextStyle(
                   color: Config.primaryColor,
                   fontFamily: Config.fontText
