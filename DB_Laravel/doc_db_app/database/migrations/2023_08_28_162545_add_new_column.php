@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('user_details', function (Blueprint $table) {
+        //add new column fav , bio_data
             $table->json('fav')->nullable()->after('bio_data');
         });
     }

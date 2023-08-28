@@ -36,7 +36,9 @@ class _FavPageState extends State<FavPage> {
                       itemBuilder: (context,index){
                         return DoctorCard(
                             route: 'doc_details',
-                            doctor: {}
+                            doctor: {
+
+                            }
                         );
                       }
                   )

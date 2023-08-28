@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Card(
                   margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
                   child: Container(
-                    width: 300,
+                    width: 310,
                     height: 300,
                    child: Padding(
                      padding: EdgeInsets.all(12),
