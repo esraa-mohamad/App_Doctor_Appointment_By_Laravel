@@ -28,11 +28,13 @@ class _MainLayoutState extends State<MainLayout> {
             currentPage = value;
           });
         }),
+        //pages
         children: const [
           HomePage(),
           FavPage(),
           AppointPage(),
           ProfilePage(),
+
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
