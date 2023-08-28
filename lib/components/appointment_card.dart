@@ -102,6 +102,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                             context: context,
                             builder: (context) {
                               return RatingDialog(
+                                starSize: 30,
                                   initialRating: 1.0,
                                   title: Text(
                                     'Rate the Doctor',

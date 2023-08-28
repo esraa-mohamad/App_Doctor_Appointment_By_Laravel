@@ -26,7 +26,7 @@ class UserController extends Controller
         $doctorData=Doctor::all();
 
         //this is the date format without leading
-        $date = now()->format('m/d/Y');
+        $date = now()->format('n/j/Y');
         //make this appointment filter only status is "upcoming"
         $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();        //here we collect user data and doctor details
         foreach($doctorData as $data){
