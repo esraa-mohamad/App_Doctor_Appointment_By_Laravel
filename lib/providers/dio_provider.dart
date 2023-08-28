@@ -129,5 +129,21 @@ class DioProvider{
     }
   }
 
+
+  Future<dynamic> logout(String token) async {
+    try {
+      var response = await Dio().post('${Config.ip}/api/logout',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200 && response.data != '') {
+        return response.statusCode;
+      } else {
+        return 'Error';
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
 }
 

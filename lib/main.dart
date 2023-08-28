@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           'login': (context) => const AuthScreen(),
           'main': (context) => const MainLayout(),
           'welcome': (context) => const WelcomePage(),
-          'doc_details': (context) => const DoctorDetails(),
+          // 'doc_details': (context) => const DoctorDetails(),
           'booking': (context) => BookingPage(),
           'success_booking': (context) => SuccessBooking(),
 

@@ -187,8 +187,8 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   children: List.generate(user['doctor'].length, (index)
                   {
-                    return  DoctorCard(
-                      route: 'doc_details', doctor:user['doctor'][index],
+                    return  DoctorCard(doctor:user['doctor'][index],
+                        isFav:favList.contains(user['doctor'][index]['doc_id']) ? true : false,
                     );
                   }
                   ),

@@ -1,11 +1,13 @@
+import 'package:doctor_appointment/Screens/pages/doctor_details.dart';
+import 'package:doctor_appointment/main.dart';
 import 'package:doctor_appointment/utils/config.dart';
 import 'package:flutter/material.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({super.key, required this.route, required this.doctor});
+  const DoctorCard({super.key, required this.doctor, required this.isFav});
 
-  final String route;
   final Map<String,dynamic>doctor;
+  final bool isFav;
   @override
   Widget build(BuildContext context) {
     Config().init(context);
@@ -14,7 +16,8 @@ class DoctorCard extends StatelessWidget {
       height: 150,
       child: GestureDetector(
         onTap: (){
-          Navigator.pushNamed(context, route,arguments: doctor);
+          // Navigator.pushNamed(context, route,arguments: doctor);
+          MyApp.navigatorKey.currentState!.push(MaterialPageRoute(builder: (_)=>DoctorDetails(doctor: doctor,isFav: isFav,)));
         },
         child: Card(
           elevation: 5,

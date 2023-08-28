@@ -1,4 +1,7 @@
+import 'package:doctor_appointment/main.dart';
+import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/config.dart';
 
@@ -33,13 +36,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 10,
                 ),
                 Text(
-                    'Esraa Mohamed',
+                  'Esraa Mohamed',
                   style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: Config.primaryFont,
-                    color: Config.primaryColor
-                  ),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Config.primaryFont,
+                      color: Config.primaryColor),
                 ),
                 SizedBox(
                   height: 10,
@@ -50,16 +52,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       fontFamily: Config.smallFontText,
-                      color: Config.smallColorText
-                  ),
+                      color: Config.smallColorText),
                 ),
               ],
             ),
           ),
         ),
         Expanded(
-          flex: 5,
-            child:Container(
+            flex: 5,
+            child: Container(
               color: Config.smallColorText,
               child: Center(
                 child: Card(
@@ -67,103 +68,114 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                     width: 310,
                     height: 300,
-                   child: Padding(
-                     padding: EdgeInsets.all(12),
-                     child: Column(
-                       children: [
-                         Text(
-                             'Profile',
-                           style: TextStyle(
-                             fontFamily: Config.primaryFont,
-                             fontWeight: FontWeight.w900,
-                             fontSize: 18,
-                             color: Config.primaryColor
-                           ),
-                         ),
-                         Divider(color: Colors.grey[300],),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           children: [
-                             Icon(
-                               Icons.person,
-                               color: Config.primaryColor,
-                             ),
-                             SizedBox(
-                               width: 20,
-                             ),
-                             TextButton(
-                                 onPressed: (){},
-                                 child: Text(
-                                   'Profile',
-                                   style: TextStyle(
-                                     fontSize: 18,
-                                     fontWeight: FontWeight.bold,
-                                     fontFamily: Config.smallFontText,
-                                     color: Config.primaryColor,
-                                   ),
-                                 )
-                             ),
-                           ],
-                         ),
-                         Config.smallSpacer,
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           children: [
-                             Icon(
-                               Icons.history,
-                               color: Colors.yellow,
-                             ),
-                             SizedBox(
-                               width: 20,
-                             ),
-                             TextButton(
-                                 onPressed: (){},
-                                 child: Text(
-                                   'History',
-                                   style: TextStyle(
-                                     fontSize: 18,
-                                     fontWeight: FontWeight.bold,
-                                     fontFamily: Config.smallFontText,
-                                     color: Config.primaryColor,
-                                   ),
-                                 )
-                             ),
-                           ],
-                         ),
-                         Config.smallSpacer,
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           children: [
-                             Icon(
-                               Icons.login_outlined,
-                               color: Config.smallColorText,
-                             ),
-                             SizedBox(
-                               width: 20,
-                             ),
-                             TextButton(
-                                 onPressed: (){},
-                                 child: Text(
-                                   'Logout',
-                                   style: TextStyle(
-                                     fontSize: 18,
-                                     fontWeight: FontWeight.bold,
-                                     fontFamily: Config.smallFontText,
-                                     color: Config.primaryColor,
-                                   ),
-                                 )
-                             ),
-                           ],
-                         ),
-                         Config.smallSpacer,
-                       ],
-                     ),
-                   ),
+                    child: Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Profile',
+                            style: TextStyle(
+                                fontFamily: Config.primaryFont,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 18,
+                                color: Config.primaryColor),
+                          ),
+                          Divider(
+                            color: Colors.grey[300],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.person,
+                                color: Config.primaryColor,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'Profile',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: Config.smallFontText,
+                                      color: Config.primaryColor,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          Config.smallSpacer,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.history,
+                                color: Colors.yellow,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              TextButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'History',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: Config.smallFontText,
+                                      color: Config.primaryColor,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          Config.smallSpacer,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.login_outlined,
+                                color: Config.smallColorText,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              TextButton(
+                                  onPressed: () async {
+                                    final SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    final token =
+                                        prefs.getString('token') ?? '';
+                                    if (token.isNotEmpty && token != '') {
+                                      final response = await DioProvider().logout(token);
+                                      if(response==200){
+                                        await prefs.remove('token');
+                                        setState(() {
+                                          MyApp.navigatorKey.currentState!.pushReplacementNamed('/login');
+                                        });
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                    'Logout',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: Config.smallFontText,
+                                      color: Config.primaryColor,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          Config.smallSpacer,
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            )
-        ),
+            )),
       ],
     );
   }

@@ -72,6 +72,19 @@ class UserController extends Controller
     }
 
     /**
+    * logout
+    */
+    public function logout()
+    {
+         $user=Auth::user();
+         $user->currentAccessToken()->delete();
+
+         return response()->json([
+                     'success'=>'Logout successfully!',
+                 ], 200);
+    }
+
+    /**
          *register
          */
         public function register(Request $request)
