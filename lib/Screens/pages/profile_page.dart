@@ -1,8 +1,10 @@
 import 'package:doctor_appointment/main.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/auth_model.dart';
 import '../../utils/config.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,8 +15,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Map<String,dynamic>user={};
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<AuthModel>(context, listen: false).getUser;
     return Column(
       children: [
         Expanded(
@@ -36,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 10,
                 ),
                 Text(
-                  'Esraa Mohamed',
+                  user['name'],
                   style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -45,14 +49,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(
                   height: 10,
-                ),
-                Text(
-                  '21 Years | Female',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: Config.smallFontText,
-                      color: Config.smallColorText),
                 ),
               ],
             ),
@@ -152,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       if(response==200){
                                         await prefs.remove('token');
                                         setState(() {
-                                          MyApp.navigatorKey.currentState!.pushReplacementNamed('/login');
+                                          MyApp.navigatorKey.currentState!.pushReplacementNamed('login');
                                         });
                                       }
                                     }

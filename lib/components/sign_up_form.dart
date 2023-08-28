@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                             if (token != null) {
                               // Update login status
                               //auth.loginSuccess({},{});
-                              MyApp.navigatorKey.currentState!.pushNamed('main');
+                              MyApp.navigatorKey.currentState!.pushNamed('login');
                             } else {
                               print('Failed to get token.');
                             }

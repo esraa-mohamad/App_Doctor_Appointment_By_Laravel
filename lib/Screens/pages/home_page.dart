@@ -82,7 +82,12 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       child: CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage('assets/images/medical.png'),
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.person,
+                          color: Config.primaryColor,
+                          size: 50,
+                        ),
                       ),
                     )
                   ],

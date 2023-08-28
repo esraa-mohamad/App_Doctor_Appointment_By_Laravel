@@ -95,7 +95,8 @@ class _LoginFormState extends State<LoginForm> {
                               if (response is DioError) {
                                 // Handle DioException
                                 print('DioException: ${response.message}');
-                              } else if (response is String) {
+                              }
+                              else if (response is String) {
                                 setState(() {
                                   Map<String,dynamic>appointment={};
                                   var user = json.decode(response);
