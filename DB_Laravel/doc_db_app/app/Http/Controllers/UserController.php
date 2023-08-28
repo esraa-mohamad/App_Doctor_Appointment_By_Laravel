@@ -97,6 +97,28 @@ class UserController extends Controller
 
               return $user;
 
+    }
+
+        /**
+         * update favorite doctor list
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @return \Illuminate\Http\Response
+         */
+        public function storeFavDoc(Request $request)
+        {
+
+            $saveFav = UserDetails::where('user_id',Auth::user()->id)->first();
+
+            $docList = json_encode($request->get('favList'));
+
+            //update fav list into database
+            $saveFav->fav = $docList;  //and remember update this as well
+            $saveFav->save();
+
+            return response()->json([
+                'success'=>'The Favorite List is updated',
+            ], 200);
         }
 
     /**

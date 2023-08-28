@@ -25,7 +25,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         icon: FaIcon(Icons.arrow_back_ios),
         actions: [
           IconButton(
-              onPressed: (){
+              onPressed: () async{
                 setState(() {
                   isFav=!isFav;
                 });

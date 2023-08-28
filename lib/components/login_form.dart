@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:doctor_appointment/components/button.dart';
 import 'package:doctor_appointment/main.dart';
@@ -5,6 +7,7 @@ import 'package:doctor_appointment/models/auth_model.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/config.dart';
 
@@ -81,8 +84,36 @@ class _LoginFormState extends State<LoginForm> {
 
                     if (token is bool) {
                       if (token) {
-                        auth.loginSuccess();
-                        MyApp.navigatorKey.currentState!.pushNamed('main');
+                       // auth.loginSuccess();
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final token = prefs.getString('token') ?? '';
+                        if (token.isNotEmpty && token != '') {
+                          try {
+                            final response = await DioProvider().getUser(token);
+                            if (response != null) {
+                              // ignore: deprecated_member_use
+                              if (response is DioError) {
+                                // Handle DioException
+                                print('DioException: ${response.message}');
+                              } else if (response is String) {
+                                setState(() {
+                                  Map<String,dynamic>appointment={};
+                                  var user = json.decode(response);
+                                  for (var doctorData in user['doctor']) {
+                                    if (doctorData['appointments'] != null) {
+                                      appointment = doctorData;
+
+                                    }
+                                  }
+                                  auth.loginSuccess(user, appointment);
+                                  MyApp.navigatorKey.currentState!.pushNamed('main');
+                                });
+                              } else {
+                                print('Unexpected response type');
+                              }
+                            }
+                          } catch (error) {print('An error occurred: $error');}
+                        }
                       } else {
                         print("Login failed");
                       }

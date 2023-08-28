@@ -6,8 +6,10 @@ import 'package:doctor_appointment/components/doctor_card.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/auth_model.dart';
 import '../../utils/config.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Map<String,dynamic>user={};
   Map<String,dynamic>doctor={};
+  List<dynamic> favList=[];
   List <Map<String,dynamic>> medCat=[
     {
       'icon':FontAwesomeIcons.userDoctor,
@@ -47,83 +50,14 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-
-  Future<void> getData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token') ?? '';
-    if (token.isNotEmpty && token != '') {
-      try {
-        final response = await DioProvider().getUser(token);
-        if (response != null) {
-          if (response is DioError) {
-            // Handle DioException
-            print('DioException: ${response.message}');
-          } else if (response is String) {
-            setState(() {
-              user = json.decode(response);
-              for (var doctorData in user['doctor']) {
-                if (doctorData['appointments'] != null) {
-                  doctor = doctorData;
-
-                }
-              }
-              print(user['doctor']);
-              print(doctor['appointments']);
-              print(doctor);
-            });
-          } else {
-            print('Unexpected response type');
-          }
-        }
-      } catch (error) {
-        // Handle other exceptions
-        print('An error occurred: $error');
-      }
-    }
-  }
-
-
-
-
-
-
-  // Future<void> getData() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final token = prefs.getString('token') ?? '';
-  //
-  //   if (token.isNotEmpty && token != '') {
-  //     try {
-  //       final response = await DioProvider().getUser(token);
-  //       if (response != null) {
-  //         setState(() {
-  //           user = json.decode(response);
-  //
-  //           for(var doctorData in user['doctor'])
-  //             {
-  //               if(doctorData['appointments'] != null)
-  //                 {
-  //                   doctor =doctorData;
-  //                 }
-  //             }
-  //           print(user);
-  //         });
-  //       }
-  //     } on DioException catch (e) {
-  //       // Handle DioException here
-  //       print('DioException: ${e.message}');
-  //     }
-  //   }
-  //
-  // }
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    user = Provider.of<AuthModel>(context, listen: false).getUser;
+    doctor = Provider.of<AuthModel>(context, listen: false).getAppointment;
+    favList = Provider.of<AuthModel>(context, listen: false).getFav;
+
+
     return   Scaffold(
       body:user.isEmpty?const Center(child: CircularProgressIndicator())
           :SafeArea(
