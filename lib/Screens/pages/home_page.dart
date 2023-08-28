@@ -64,9 +64,12 @@ class _HomePageState extends State<HomePage> {
               for (var doctorData in user['doctor']) {
                 if (doctorData['appointments'] != null) {
                   doctor = doctorData;
+
                 }
               }
-              print(user);
+              print(user['doctor']);
+              print(doctor['appointments']);
+              print(doctor);
             });
           } else {
             print('Unexpected response type');
