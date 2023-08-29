@@ -86,10 +86,10 @@ class _LoginFormState extends State<LoginForm> {
                       if (token) {
                        // auth.loginSuccess();
                         final SharedPreferences prefs = await SharedPreferences.getInstance();
-                        final token = prefs.getString('token') ?? '';
-                        if (token.isNotEmpty && token != '') {
+                        final tokenValue = prefs.getString('token') ?? '';
+                        if (tokenValue.isNotEmpty && token != '') {
                           try {
-                            final response = await DioProvider().getUser(token);
+                            final response = await DioProvider().getUser(tokenValue);
                             if (response != null) {
                               // ignore: deprecated_member_use
                               if (response is DioError) {

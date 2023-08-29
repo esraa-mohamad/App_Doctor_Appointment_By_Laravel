@@ -64,6 +64,6 @@ static const outlinedBorder=OutlineInputBorder(
   static const fontText='Inter';
 
 
-  static const ip = 'http://192.168.1.9:8000';
+  static const ip = 'http://192.168.1.8:8000';
 
 }

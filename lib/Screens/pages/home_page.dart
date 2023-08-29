@@ -14,7 +14,6 @@ import '../../utils/config.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -49,14 +48,12 @@ class _HomePageState extends State<HomePage> {
       'category':'Dental',
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     Config().init(context);
     user = Provider.of<AuthModel>(context, listen: false).getUser;
     doctor = Provider.of<AuthModel>(context, listen: false).getAppointment;
     favList = Provider.of<AuthModel>(context, listen: false).getFav;
-
 
     return   Scaffold(
       body:user.isEmpty?const Center(child: CircularProgressIndicator())

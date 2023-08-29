@@ -8,7 +8,6 @@ class AuthModel extends ChangeNotifier {
 
   Map<String,dynamic> user={};
   Map<String,dynamic> appointment={};
-
   List<Map<String, dynamic>> favDoc = [];
   List<dynamic> _fav = [];
 
@@ -50,6 +49,7 @@ class AuthModel extends ChangeNotifier {
   }
    void loginSuccess(Map<String, dynamic> userData, Map<String, dynamic> appointmentInfo){
     _isLogin=true;
+
     user = userData;
     appointment = appointmentInfo;
     if (user['details']['fav'] != null) {

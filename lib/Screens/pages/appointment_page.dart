@@ -198,25 +198,15 @@ class _AppointPageState extends State<AppointPage> {
                         children: [
                           Expanded(
                             child: OutlinedButton(
-                                onPressed: () {},
+                                onPressed: () {
+
+                                },
                                 child: Text(
                                   "cancel",
                                   style: TextStyle(color: Config.primaryColor),
                                 )),
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    backgroundColor: Config.primaryColor),
-                                onPressed: () {},
-                                child: Text(
-                                  "Reschedule",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          ),
+
                         ],
                       )
                     ],
