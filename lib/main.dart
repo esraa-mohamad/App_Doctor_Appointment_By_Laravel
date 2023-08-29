@@ -6,6 +6,7 @@ import 'package:doctor_appointment/main_layout.dart';
 import 'package:doctor_appointment/models/auth_model.dart';
 import 'package:doctor_appointment/utils/config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/pages/booking_page.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AuthModel>(
       create: (context) => AuthModel(),
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         title: 'Flutter Doctor App',
