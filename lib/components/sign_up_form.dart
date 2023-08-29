@@ -3,6 +3,8 @@ import 'package:doctor_appointment/main.dart';
 import 'package:doctor_appointment/models/auth_model.dart';
 import 'package:doctor_appointment/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/config.dart';
@@ -101,6 +103,13 @@ class _SignUpState extends State<SignUp> {
                             if (token != null) {
                               // Update login status
                               //auth.loginSuccess({},{});
+                              Get.snackbar(
+                                'ِAccount created Successfully',
+                                'Feel free to book appointment',
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.green, // Customize the background color
+                                colorText: Colors.white,     // Customize the text color
+                              );
                               MyApp.navigatorKey.currentState!.pushNamed('login');
                             } else {
                               print('Failed to get token.');
@@ -114,6 +123,13 @@ class _SignUpState extends State<SignUp> {
                           print('User registration failed: $error');
                         }
                       } else {
+                        Get.snackbar(
+                          'Account Creation Failed',
+                          'Email and password cannot be empty.',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red, // Customize the background color
+                          colorText: Colors.white,     // Customize the text color
+                        );
                         print('Email and password cannot be empty.');
                       }
                     }

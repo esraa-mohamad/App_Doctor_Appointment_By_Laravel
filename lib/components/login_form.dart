@@ -99,13 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                                 // Handle DioException
                                 // Get.snackbar(
                                 //     'DioException:', '${response.message}');
-                                Get.snackbar(
-                                  'Login Failed',
-                                  'Wrong email or password',
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  backgroundColor: Colors.red, // Customize the background color
-                                  colorText: Colors.white,     // Customize the text color
-                                );
+
                               } else if (response is String) {
                                 setState(() {
                                   Map<String, dynamic> appointment = {};

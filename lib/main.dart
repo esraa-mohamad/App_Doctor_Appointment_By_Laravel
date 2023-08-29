@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AuthModel>(
       create: (context) => AuthModel(),
-      child: GetMaterialApp(
+      child:GetMaterialApp(
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         title: 'Flutter Doctor App',

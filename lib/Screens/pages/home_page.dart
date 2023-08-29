@@ -51,9 +51,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-    user = Provider.of<AuthModel>(context, listen: false).getUser;
-    doctor = Provider.of<AuthModel>(context, listen: false).getAppointment;
-    favList = Provider.of<AuthModel>(context, listen: false).getFav;
+    setState(() {
+      user = Provider.of<AuthModel>(context).getUser;
+      doctor = Provider.of<AuthModel>(context).getAppointment;
+      favList = Provider.of<AuthModel>(context).getFav;
+    });
     return   Scaffold(
       body:user.isEmpty?const Center(child: CircularProgressIndicator())
           :SafeArea(
