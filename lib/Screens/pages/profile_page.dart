@@ -148,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       if(response==200){
                                         await prefs.remove('token');
                                         setState(() {
-                                          MyApp.navigatorKey.currentState!.pushReplacementNamed('login');
+                                          MyApp.navigatorKey.currentState!.pushReplacementNamed('welcome');
                                         });
                                       }
                                     }
